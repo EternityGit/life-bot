@@ -5,6 +5,7 @@ const Game = require('./commands/game.js')
 const Care = require('./commands/care.js')
 const Windows = require('./commands/windows.js')
 const Help = require('./commands/help.js')
+const Reward = require('./commands/reward.js')
 const Emergency = require('./commands/emergency.js')
 const Food = require('./needs/food.js')
 const Treatment = require('./needs/treatment.js')
@@ -23,7 +24,7 @@ bot.on('guildMemberAdd', (member) => {
 })
 
 bot.on('message', (message) => {
-    let commandUsed = Sleep.parse(message) || Game.parse(message) || Care.parse(message) || Windows.parse(message) || Help.parse(message) || Emergency.parse(message)
+    let commandUsed = Sleep.parse(message) || Game.parse(message) || Care.parse(message) || Windows.parse(message) || Help.parse(message) || Emergency.parse(message) || Reward.parse(message)
 })
 bot.on('ready', () => {
     if (guild.available == ("Life's Family")) {
