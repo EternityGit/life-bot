@@ -28,12 +28,14 @@ bot.on('message', (message) => {
 })
 bot.on('ready', () => {
     if (guild.available == ("Life's Family")) {
-        setInterval(function () {
-            guild.channels.find("name", "nourriture").send(Food.getMorningFoodMessage())
-        }, 24*60*60*1000)
-        setInterval(function () {
-            guild.channels.find("name", "nourriture").send(Food.getEveningFoodMessage())
-        }, 24*60*60*1000)
+        let today = new Date()
+
+        if (today.getHours == "6" && today.getMinutes == "30") {
+            guild.channels.find("name", "nourriture").send(Food.getMorningFoodMessage())            
+        } else if(today.getHours == "18" && today.getMinutes == "30") {
+            guild.channels.find("name", "nourriture").send(Food.getEveningFoodMessage())            
+        }
+        
         setInterval(function () {
             guild.channels.find("name", "suivi").send(Treatment.getFleaTreatmentMessage())
         }, 15*24*60*60*1000)
