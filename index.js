@@ -70,8 +70,6 @@ bot.on('ready', () => {
                 console.log(product)
             })         
         }, 24 * 60 * 60 * 1000)
-
-        guild.channels.find('name', 'test').send('Oui c\'est vrai')
     }
 })
 
