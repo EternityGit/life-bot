@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.3.2"
+    "csv": "^3.0.2",
+    "discord.js": "^11.3.2",
+    "fast-csv": "^2.4.1"
   }
 }
