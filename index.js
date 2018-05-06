@@ -23,23 +23,23 @@ bot.on('ready', () => {
     if (guild.available) {
         let today
         /* ---------- FOOD ---------- */
-        // Check every 1 minute (60 seconds * 1000 ms)
+        // Check every minute (60 seconds * 1000 ms)
         setInterval(function() {
             today = new Date()
 
             // Morning portion 6:30 am
-            if (today.getHours() == "6" && today.getMinutes() == "15") {
+            if (today.getHours() == "4" && today.getMinutes() == "15") {
                 guild.channels.find("name", "nourriture").send(Food.getAmMessage(), {
                     files: ['./img/thanos.jpg']
                 })
             // Evening portion 6:30 pm   
-            } else if(today.getHours() == "18" && today.getMinutes() == "30") {
+            } else if(today.getHours() == "16" && today.getMinutes() == "30") {
                 guild.channels.find("name", "nourriture").send(Food.getPmMessage())            
             }
         }, 60 * 1000)        
 
         /* ---------- TREATMENT ---------- */
-        // check every day (24 hours * (60 minutes * (60 seconds * 1000 ms)))
+        // check every hour (60 minutes * (60 seconds * 1000 ms))
         setInterval(function () {
             // get the CSV file
             let stream = fs.createReadStream("./file/life_planning.csv")
@@ -59,17 +59,18 @@ bot.on('ready', () => {
                 day = data[1][0] + data[1][1]
                 month = data[1][3] + data[1][4]
                 year = data[1][6] + data[1][7] + data[1][8] + data[1][9]
-                // reverse the date
+                // reverse the date (ex: 2018-05-06)
                 dateTemp = year + "-" + month + "-" + day
                 // UTC format
                 dateUTC = new Date(dateTemp)
                 // today is on the planning, display a message with the name of the product
-                if (dateUTC.getDate() == today.getDate() && dateUTC.getMonth() == today.getMonth() && dateUTC.getFullYear() == today.getFullYear()) {
+                if (dateUTC.getDate() == today.getDate() && dateUTC.getMonth() == today.getMonth() && dateUTC.getFullYear() == today.getFullYear()
+                    && today.getHours() == "5") {
                     guild.channels.find("name", "suivi").send(Treatment.getTreatmentMessage(product))
                 }
                 console.log(product)
             })         
-        }, 24 * 60 * 60 * 1000)
+        }, 60 * 60 * 1000)
     }
 })
 
