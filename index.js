@@ -9,6 +9,7 @@ const Windows = require('./commands/windows.js')
 const Help = require('./commands/help.js')
 const Reward = require('./commands/reward.js')
 const Emergency = require('./commands/emergency.js')
+const Schedule = require('./commands/schedule.js')
 const Food = require('./needs/food.js')
 const Treatment = require('./needs/treatment.js')
 
@@ -89,8 +90,9 @@ bot.on('message', (message) => {
         || Care.parse(message) 
         || Windows.parse(message)
         || Help.parse(message) 
-        || Emergency.parse(message) 
-        || Reward.parse(message)
+        || Emergency.parse(message)     
+        || Reward.parse(message)  
+        || Schedule.parse(message)
 })
 
 
