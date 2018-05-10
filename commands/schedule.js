@@ -51,7 +51,7 @@ module.exports = class Scedule extends Command{
                 if (dateUTC > today) {
                     if (time == 0) {                        
                         // The 1st next product
-                        planning =  'Nous somme le _*' + today.getDate() + ' ' + this.getNameMonth(today.getMonth()) + ' ' + today.getFullYear() + '*_ et les 2 prochains produits sont :' +
+                        planning =  'Nous sommes le _*' + today.getDate() + ' ' + this.getNameMonth(today.getMonth()) + ' ' + today.getFullYear() + '*_ et les 2 prochains produits sont :' +
                                     '\n\n     - **' + product + '** dans **' + Math.ceil((dateUTC - today)/(1000 * 3600 * 24)) + '** jours. (le '+ dateUTC.getDate() + ' ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')'
                     } else if (time == 1) {                        
                         // The 2nd next product
