@@ -15,9 +15,9 @@ module.exports = class Care extends Command{
         if (message.content.split(' ').length == 1) {
             message.channel.send(care)
         } else {
-            let username = message.content.split(' ')
-            username.shift()
-            message.channel.send(username.join('%20') + care)
+            let args = message.content.split(' ')
+            username.shift()    
+            message.channel.send(username.join('%20') + '\n' + care)
         }
     }
 }
