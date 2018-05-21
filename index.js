@@ -10,12 +10,12 @@ const Help = require('./commands/help.js')
 const Reward = require('./commands/reward.js')
 const Emergency = require('./commands/emergency.js')
 const Schedule = require('./commands/schedule.js')
+const Purge = require('./commands/purge.js')
 const Food = require('./needs/food.js')
 const Treatment = require('./needs/treatment.js')
 
 const bot = new Discord.Client()
-
-
+const embed = new Discord.RichEmbed()
 
 bot.on('ready', () => {
     let guild = bot.guilds.get('435771750408650753')
@@ -66,10 +66,9 @@ bot.on('ready', () => {
                 dateUTC = new Date(dateTemp)
                 // today is on the planning, display a message with the name of the product
                 if (dateUTC.getDate() == today.getDate() && dateUTC.getMonth() == today.getMonth() && dateUTC.getFullYear() == today.getFullYear()
-                    && today.getHours() == "5") {
-                    guild.channels.find("name", "suivi").send(Treatment.getTreatmentMessage(product))
+                    && today.getHours() == "6") {
+                    guild.channels.find("name", "suivi").send(Treatment.getFleaTreatmentMessage(embed, product))
                 }
-                console.log(product)
             })         
         }, 60 * 60 * 1000)
     }
@@ -93,6 +92,7 @@ bot.on('message', (message) => {
         || Emergency.parse(message)     
         || Reward.parse(message)  
         || Schedule.parse(message)
+        || Purge.parse(message)
 })
 
 
