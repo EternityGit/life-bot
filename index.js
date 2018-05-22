@@ -29,13 +29,11 @@ bot.on('ready', () => {
             today = new Date()
 
             // Morning portion 6:30 am
-            if (today.getHours() == "4" && today.getMinutes() == "15") {
-                guild.channels.find("name", "nourriture").send(Food.getAmMessage(), {
-                    files: ['./img/thanos.jpg']
-                })
+            if (today.getHours() == "4" && today.getMinutes() == "58") {
+                guild.channels.find("name", "nourriture").send(Food.getAmMessage(embed))
             // Evening portion 6:30 pm   
             } else if(today.getHours() == "16" && today.getMinutes() == "30") {
-                guild.channels.find("name", "nourriture").send(Food.getPmMessage())            
+                guild.channels.find("name", "nourriture").send(Food.getPmMessage(embed))            
             }
         }, 60 * 1000)        
 
