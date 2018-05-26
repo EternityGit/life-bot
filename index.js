@@ -11,6 +11,7 @@ const Reward = require('./commands/reward.js')
 const Emergency = require('./commands/emergency.js')
 const Schedule = require('./commands/schedule.js')
 const Purge = require('./commands/purge.js')
+const Howto = require('./commands/howto.js')
 const Food = require('./needs/food.js')
 const Treatment = require('./needs/treatment.js')
 
@@ -20,6 +21,7 @@ const embed = new Discord.RichEmbed()
 bot.on('ready', () => {
     let guild = bot.guilds.get('435771750408650753')
 
+    bot.user.setStatus('dnd')
     // server available
     if (guild.available) {
         let today
@@ -82,6 +84,8 @@ bot.on('guildMemberAdd', (member) => {
 })
 
 bot.on('message', (message) => {
+    bot.user.setStatus('idle')
+
     let commandUsed = Sleep.parse(message) 
         || Game.parse(message) 
         || Care.parse(message) 
@@ -91,6 +95,11 @@ bot.on('message', (message) => {
         || Reward.parse(message)  
         || Schedule.parse(message)
         || Purge.parse(message)
+        || Howto.parse(message)
+
+    if (commandUsed) {
+        bot.user.setStatus('Online')            
+    }
 })
 
 

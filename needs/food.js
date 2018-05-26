@@ -1,5 +1,8 @@
+const Discord = require('discord.js')
+
 module.exports = class Food {
-    static getAmMessage(embed) {
+    static getAmMessage(embed) {        
+        const embed = new Discord.RichEmbed()
         let message = embed
             .addField('Feeding time!', 'Miaou @everyone, c\'est l\'heure de ma ration de croquette du matin. :smirk_cat:')
             .addField('Dose', '1 pot', true)
@@ -10,13 +13,14 @@ module.exports = class Food {
             .addField('Emplacement', 'Dans la chambre de mon maître', true)
             .setColor(0xFF9933)
             .setDescription('RATION BI-QUOTIDIENNE')
-            .setThumbnail("https://i.imgur.com/3fr7bPQ.png")
+            .setThumbnail("https://i.imgur.com/pfDj8p8.png")
             .setImage("https://i.imgur.com/UAcmbPp.jpg")
             .setFooter('Pour plus d\'informations sur le remplissage des pots, contact mon maître @Entropy#0559.')
         return message;
     }
 
     static getPmMessage(embed) {
+        const embed = new Discord.RichEmbed()
         let message = embed
             .addField('Feeding time!', 'Miaou @everyone, c\'est l\'heure de ma ration de croquette du soir. :smirk_cat:')
             .addField('Dose', '1 pot', true)
