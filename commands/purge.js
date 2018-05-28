@@ -1,10 +1,5 @@
-const Command = require('./command')
-
-module.exports = class Purge extends Command {
-    static match(message) {     
-        return message.content.startsWith('!purge')
-    } 
-
+module.exports = class Purge {
+    
     static action(message) {        
         let args = message.content.split(' ')
         

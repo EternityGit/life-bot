@@ -1,8 +1,7 @@
-const Command = require('./command')
 const fs = require('fs')
 const csv = require('csv')
 
-module.exports = class Scedule extends Command{
+module.exports = class Scedule {
 
     static getNameMonth(month) {
         let months = [
@@ -20,10 +19,6 @@ module.exports = class Scedule extends Command{
             'decembre'
         ]
         return months[month]
-    }
-
-    static match(message) {
-        return message.content.startsWith('!planning')
     }
 
     static action(message) {

@@ -21,7 +21,6 @@ const embed = new Discord.RichEmbed()
 bot.on('ready', () => {
     let guild = bot.guilds.get('435771750408650753')
 
-    bot.user.setStatus('dnd')
     // server available
     if (guild.available) {
         let today
@@ -84,22 +83,32 @@ bot.on('guildMemberAdd', (member) => {
 })
 
 bot.on('message', (message) => {
-    bot.user.setStatus('idle')
+    
+    
+    var commandUsed = message.content.split(' ');
 
-    let commandUsed = Sleep.parse(message) 
-        || Game.parse(message) 
-        || Care.parse(message) 
-        || Windows.parse(message)
-        || Help.parse(message) 
-        || Emergency.parse(message)     
-        || Reward.parse(message)  
-        || Schedule.parse(message)
-        || Purge.parse(message)
-        || Howto.parse(message)
+    switch (commandUsed[0]) {
 
-    if (commandUsed) {
-        bot.user.setStatus('Online')            
-    }
+        case '!soin': Care.action(message); break;
+        case '!urgence': Emergency.action(message); break;
+        case '!jeu': Game.action(message); break;
+        case '!help': Help.action(message); break;
+        case '!howto': 
+            bot.user.setStatus('dnd')
+            let state = Howto.action(message);
+
+            if (state) {
+                bot.user.setStatus('Online')
+            }
+            break;
+        case '!purge': Purge.action(message); break;
+        case '!friandise': Reward.action(message); break;
+        case '!balance': Scale.action(message); break;
+        case '!planning': Schedule.action(message); break;
+        case '!sommeil': Sleep.action(message); break;
+        case '!fenêtre': Windows.action(message); break;    
+        default: break;
+    }        
 })
 
 

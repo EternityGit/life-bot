@@ -1,10 +1,5 @@
-const Command = require('./command')
-
-module.exports = class Game extends Command {
-    static match(message) {
-        return message.content.startsWith('!jeu')
-    }
-
+module.exports = class Game {
+    
     static action(message) {
         if (message.content.split(' ').length == 1) {            
             message.channel.send('J\'adore jouer surtout avec ma petite souris, mais quelque fois j\'ai besoin qu\'on me laisse jouer toute seule ! :smirk_cat:')

@@ -1,10 +1,4 @@
-const Command = require('./command')
-
-module.exports = class Reward extends Command {
-
-    static match(message) {
-        return message.content.startsWith('!friandise')
-    }
+module.exports = class Reward {
 
     static action(message) {
         let reward =   'J\'aime beaucoup les friandises mais c\'est pas ça qu\'il faut m\'en donner fréquemment.'+

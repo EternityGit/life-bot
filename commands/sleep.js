@@ -1,6 +1,4 @@
-const Command = require('./command')
-
-module.exports = class Sleep extends Command {
+module.exports = class Sleep {
     static match(message) {
         return message.content.startsWith('!sommeil')
     }

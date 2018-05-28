@@ -1,9 +1,4 @@
-const Command = require('./command')
-
-module.exports = class Windows extends Command {
-    static match(message) {
-        return message.content.startsWith('!fenetre')
-    }
+module.exports = class Windows {
 
     static action(message) {
         let windows = 'Attention quand tu ouvres les fenêtres car je serais tenté de monter sur le rebord et de tomber.' +

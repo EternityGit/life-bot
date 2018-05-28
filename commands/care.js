@@ -1,9 +1,4 @@
-const Command = require('./command')
-
-module.exports = class Care extends Command{
-    static match(message) {
-        return message.content.startsWith('!soin')
-    }
+module.exports = class Care {
 
     static action(message) {
         let care = 'J\'ai besoin qu\'on m\'administre 2 produits :\n' +
