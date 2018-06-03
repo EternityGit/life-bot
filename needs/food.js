@@ -1,8 +1,5 @@
-const Discord = require('discord.js')
-
 module.exports = class Food {
     static getAmMessage(embed) {        
-        const embed = new Discord.RichEmbed()
         let message = embed
             .addField('Feeding time!', 'Miaou @everyone, c\'est l\'heure de ma ration de croquette du matin. :smirk_cat:')
             .addField('Dose', '1 pot', true)
@@ -20,7 +17,6 @@ module.exports = class Food {
     }
 
     static getPmMessage(embed) {
-        const embed = new Discord.RichEmbed()
         let message = embed
             .addField('Feeding time!', 'Miaou @everyone, c\'est l\'heure de ma ration de croquette du soir. :smirk_cat:')
             .addField('Dose', '1 pot', true)

@@ -93,14 +93,7 @@ bot.on('message', (message) => {
         case '!urgence': Emergency.action(message); break;
         case '!jeu': Game.action(message); break;
         case '!help': Help.action(message); break;
-        case '!howto': 
-            bot.user.setStatus('dnd')
-            let state = Howto.action(message);
-
-            if (state) {
-                bot.user.setStatus('Online')
-            }
-            break;
+        case '!howto': Howto.action(message); break;
         case '!purge': Purge.action(message); break;
         case '!friandise': Reward.action(message); break;
         case '!balance': Scale.action(message); break;
