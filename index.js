@@ -31,9 +31,11 @@ bot.on('ready', () => {
 
             // Morning portion 6:30 am
             if (today.getHours() == "4" && today.getMinutes() == "15") {
+                embed = new Discord.RichEmbed()
                 guild.channels.find("name", "nourriture").send(Food.getAmMessage(embed))
             // Evening portion 6:30 pm   
             } else if(today.getHours() == "16" && today.getMinutes() == "30") {
+                embed = new Discord.RichEmbed()
                 guild.channels.find("name", "nourriture").send(Food.getPmMessage(embed))            
             }
         }, 60 * 1000)        
@@ -65,19 +67,51 @@ bot.on('ready', () => {
                 dateUTC = new Date(dateTemp)
                 // today is on the planning, display a message with the name of the product
                 if (dateUTC.getDate() == today.getDate() && dateUTC.getMonth() == today.getMonth() && dateUTC.getFullYear() == today.getFullYear()
-                    && today.getHours() == "6") {
-                    guild.channels.find("name", "suivi").send(Treatment.getFleaTreatmentMessage(embed, product))
+                    && today.getHours() == "6") {                        
+                        embed = new Discord.RichEmbed()
+                        guild.channels.find("name", "suivi").send(Treatment.getFleaTreatmentMessage(embed, product))
                 }
             })         
         }, 60 * 60 * 1000)
+        /* ----- REFILL CROQUETTE POTS ---- */
+        setInterval(function () {
+            // get the CSV file
+            let stream = fs.createReadStream("./file/food_planning.csv")
+            let product, day, month, year, dateTemp, dateUTC;
+            
+            // get the date of the current day
+            today = new Date()
+    
+            stream
+            .pipe(csv.parse({
+                delimiter: ';'
+            }))
+            .on("data", (data) => {
+                // separate days, months and years
+                day = data[1][0] + data[1][1]
+                month = data[1][3] + data[1][4]
+                year = data[1][6] + data[1][7] + data[1][8] + data[1][9]
+                // reverse the date (ex: 2018-05-06)
+                dateTemp = year + "-" + month + "-" + day
+                // UTC format
+                dateUTC = new Date(dateTemp)
+                console.log("Date : " + dateTemp)
+                // today is on the planning, display a message with the name of the product
+                if (dateUTC.getDate() == today.getDate() && dateUTC.getMonth() == today.getMonth() && dateUTC.getFullYear() == today.getFullYear()
+                    && today.getHours() == "10") {
+                        embed = new Discord.RichEmbed()
+                        guild.channels.find("name", "test").send(Food.getRefillMessage(embed))
+                }
+            })         
+        }, 2 * 1000)
     }
+    
 })
 
 bot.on('guildMemberAdd', (member) => {
     member.createDM().then( (channel) => {
         let welcome =   'Bonjour ' + member.displayName + ' ! :smiley_cat: \n'
-                        'J\'espère que tu trouveras toutes les infomartions nécessaires pour prendre soin de moi !\n'
-                        'Sans mon maître je suis déboussolé et ce serveur te permettra de m\'apporter confort et compagnie :smirk_cat:'
+                        'Je te souhaite la bienvenue sur mon serveur discord principalement dédié à mon bien être mais tu peux trouver d\'autres salons sympas !\n'
         return channel.send(welcome)
     })
 })
