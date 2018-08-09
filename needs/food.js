@@ -36,8 +36,8 @@ module.exports = class Food {
     static getRefillMessage(embed) {
         let refill_message = embed
             .addField('Refill time!', 'Miaou, il faut refaire les pots de croquettes. :smirk_cat:')
-            .addField('Dose', '18 pots', true)
-            .addField('Quantité', '18 grammes', true)
+            .addField('Nombre', '18 pots', true)
+            .addField('Quantité', '18 grammes / pot', true)
             .addField('Emplacement', 'Dans la cuisine', true)
             .setColor(0xFF9933)
             .setDescription('REMPLISSAGE DES POTS')
