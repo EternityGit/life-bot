@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const fs = require('fs')
 const csv = require('csv')
+const Cryptr = require('cryptr');
 
 const config = require('./config.json')
 
@@ -18,9 +19,16 @@ const Food = require('./needs/food.js')
 const Treatment = require('./needs/treatment.js')
 
 const bot = new Discord.Client()
+const cryptr = new Cryptr('myTotalySecretKey');
+ 
+// const encryptedServer = cryptr.encrypt('The server');
+// const encryptedToken = cryptr.encrypt('The token');
+
+const serverCrypt = cryptr.decrypt(config.serverID);
+const tokenCrypt = cryptr.decrypt(config.token);
 
 bot.on('ready', () => {
-    let guild = bot.guilds.get(config.serverID)
+    let guild = bot.guilds.get(serverCrypt)
 
     // server available
     if (guild.available) {
@@ -141,4 +149,4 @@ bot.on('message', (message) => {
 })
 
 
-bot.login(config.token)
+bot.login(tokenCrypt)

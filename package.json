@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cryptr": "^4.0.0",
     "csv": "^3.1.0",
     "discord.js": "^11.3.2",
     "fast-csv": "^2.4.1",
