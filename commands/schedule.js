@@ -17,13 +17,13 @@ module.exports = class Scedule {
             'octobre',
             'novembre',
             'decembre'
-        ]
-        return months[month]
+        ];
+        return months[month];
     }
 
     static action(message) {
-        let stream = fs.createReadStream("./file/life_planning.csv")
-        let today = new Date()
+        let stream = fs.createReadStream("./file/life_planning.csv");
+        let today = new Date();
         let planning, product, day, month, year, dateTemp, dateUTC, time = 0;
 
         stream.
@@ -32,15 +32,15 @@ module.exports = class Scedule {
         }))
         .on("data", (data) => {
             // get the name of the product
-            product = data[0]
+            product = data[0];
             // separate days, months and years
-            day = data[1][0] + data[1][1]
-            month = data[1][3] + data[1][4]
-            year = data[1][6] + data[1][7] + data[1][8] + data[1][9]
+            day = data[1][0] + data[1][1];
+            month = data[1][3] + data[1][4];
+            year = data[1][6] + data[1][7] + data[1][8] + data[1][9];
             // reverse the date (ex: 2018-05-06)
-            dateTemp = year + "-" + month + "-" + day
+            dateTemp = year + "-" + month + "-" + day;
             // UTC format
-            dateUTC = new Date(dateTemp)
+            dateUTC = new Date(dateTemp);
 
                 // 2 next products with their names and dates then send the message
                 if (dateUTC > today) {
@@ -48,17 +48,18 @@ module.exports = class Scedule {
                         // The 1st next product
                         planning =  'Nous sommes le _*' + today.getDate() + ' ' + this.getNameMonth(today.getMonth()) + ' ' + today.getFullYear() + '*_ et les 2 prochains produits sont :' +
                                     '\n\n     - **' + product + '** dans **' + Math.ceil((dateUTC - today)/(1000 * 3600 * 24)) + '** jours. (le '+ dateUTC.getDate() + ' ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')'
-                    } else if (time == 1) {                        
+                    }
+                    else if (time == 1) {                        
                         // The 2nd next product
                         planning += '\n\n     - **' + product + '** dans **' + Math.ceil((dateUTC - today)/(1000 * 3600 * 24)) + '** jours. (le '+ dateUTC.getDate() + ' ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')'
                     }
                     else if (time == 2) {
                         //Send the message to the channel
-                        message.channel.send(planning)  
+                        message.channel.send(planning) ; 
                     }
-                    time++
+                    time++;
                 }
                 
-        })
+        });
     }
 }
