@@ -12,6 +12,7 @@ module.exports = class Food {
             message.channel.send("Précise la commande (ex: \"!howto Broadline\")")
         }
     }
+    /*
     static getAmMessage(embed) {        
         let morning_message = embed
             .addField('Feeding time!', 'Miaou c\'est l\'heure de ma ration de croquette du **matin**. :smirk_cat:')
@@ -27,8 +28,9 @@ module.exports = class Food {
             .setImage("https://i.imgur.com/UAcmbPp.jpg")
             .setFooter('Pour plus d\'informations sur le remplissage des pots, contact mon propriétaire @Entropy#0559.');
         return morning_message;
-    }
+    }*/
 
+    /*
     static getPmMessage(embed) {
         let evening_message = embed
             .setTitle('Feeding time!')
@@ -42,7 +44,7 @@ module.exports = class Food {
             .setImage("https://i.imgur.com/UAcmbPp.jpg")
             .setFooter('Pour plus d\'informations sur le remplissage des pots, contact mon propriétaire @Entropy#0559.');
         return evening_message;
-    }
+    }*/
 
     static sendRefillMessage(message, embed, guild, fs, csv) {
         let stream = fs.createReadStream("./file/food_planning.csv"); // The CSV file
@@ -65,15 +67,11 @@ module.exports = class Food {
             
             // UTC format
             dateUTC = new Date(dateTemp);
-            /*// today is on the planning, display a message with the name of the product
-            if (dateUTC.getDate() == today.getDate() && dateUTC.getMonth() == today.getMonth() && dateUTC.getFullYear() == today.getFullYear()
-            && today.getHours() == "16") {                         
-                    let embed = new Discord.RichEmbed();
-                    guild.channels.find("name", "🍣nourriture").send(Food.getRefillMessage(embed));
-            }*/
             
              // 2 next refill with their names and dates then send the message  
-             if (dateUTC > today) {
+             if (dateUTC.getDate() >= today.getDate() && 
+                 dateUTC.getMonth() >= today.getMonth() && 
+                 dateUTC.getFullYear() >= today.getFullYear()) {
                  if (time == 0) {
                      number = Math.ceil((dateUTC - today)/(1000 * 3600 * 24));
                      nextDiff = this.getProperGrammar(number);
@@ -93,10 +91,15 @@ module.exports = class Food {
                      .setThumbnail("https://i.imgur.com/fpFrKTO.png")
                      .setFooter('Requested by @' + message.author.tag + ' | Powered by Entropy®.');
 
+                     
                      guild.channels.find("name", "🍣nourriture").send('<@' + message.author.id + '>');
                      guild.channels.find("name", "🍣nourriture").send(refill_message).then(embedMessage => {
                          embedMessage.react("✅");
-                     }); 
+                     });
+                     /* TEST
+                     guild.channels.find("name", "test").send(refill_message).then(embedMessage => {
+                         embedMessage.react("✅");
+                     }); */
                  }
                  time++;
             }
@@ -116,15 +119,19 @@ module.exports = class Food {
             'septembre',
             'octobre',
             'novembre',
-            'decembre'
+            'décembre'
         ];
         return months[month];
     }
 
     static getProperGrammar(number) {
-        if (number == 1) {
+        if (number == 0) {
+            return '**Aujourd\'hui !**';
+        }
+        else if (number == 1) {
             return '**Demain !**';
-        } else {
+        } 
+        else {
             return 'Dans ' + number + ' jours.';
         }
     }
