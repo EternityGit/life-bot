@@ -66,15 +66,15 @@ module.exports = class Scedule {
                             .setColor(0xFF9933)
                             .setThumbnail("https://i.imgur.com/fpFrKTO.png")
                             .setFooter('Requested by @' + message.author.tag + ' | Powered by Entropy®.');
-                            /*
+                            
                             guild.channels.find("name", "🏥suivi").send('<@' + message.author.id + '>');
                             guild.channels.find("name", "🏥suivi").send(planning_message).then(embedMessage => {
                                 embedMessage.react("✅");
-                            });*/
-                            // TEST
+                            });
+                            /*// TEST
                             guild.channels.find("name", "test").send(planning_message).then(embedMessage => {
                                 embedMessage.react("✅");
-                            }); 
+                            }); */
                         }
                         time++;
                     }
