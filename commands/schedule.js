@@ -18,7 +18,9 @@ module.exports = class Scedule {
     static sendPlanning(message, embed, guild, fs, csv, choice) {
         let stream = fs.createReadStream("./file/life_planning.csv");
         let today = new Date();
-        let planning, product, day, month, year, dateTemp, dateUTC, planning_message, number, nextDate, nextDiff, afterDate, afterDiff, time = 0;
+        let planning, product, day, month, year, dateTemp, dateUTC, planning_message, number, firstDate, firstDiff, secondDate, secondDiff;
+        let time = 0;
+        let thumbnail = '';
 
         stream.
         pipe(csv.parse({
@@ -37,40 +39,42 @@ module.exports = class Scedule {
             dateUTC = new Date(dateTemp);
 
                 // 2 next products with their names and dates then send the message
-                if (dateUTC.getDate() >= today.getDate() && 
-                    dateUTC.getMonth() >= today.getMonth() && 
-                    dateUTC.getFullYear() >= today.getFullYear()) {      
+                if (dateUTC > today || (dateUTC.getDate() == today.getDate() && dateUTC.getMonth() == today.getMonth() && dateUTC.getFullYear() == today.getFullYear())) {      
                     if (choice == product || choice == true) {
                         if (time == 0) {                        
                             // The 1st next product
                             number = Math.ceil((dateUTC - today)/(1000 * 3600 * 24));
-                            nextDiff = this.getProperGrammar(number);
-                            nextDate =  '(le **' + dateUTC.getDate() + '** ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')';
+                            firstDiff = product + " : " + this.getProperGrammar(number);
+                            firstDate =  '(le **' + dateUTC.getDate() + '** ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')';
+                            console.log(dateUTC.getTime());
+                            console.log(today.getTime());
+                            console.log(dateUTC);
+                            console.log(today);
                         }
                         else if (time == 1) {                        
                             // The 2nd next product
                             number = Math.ceil((dateUTC - today)/(1000 * 3600 * 24));
-                            afterDiff = this.getProperGrammar(number);
-                            afterDate = '(le **' + dateUTC.getDate() + '** ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')';
+                            secondDiff = product + " : " + this.getProperGrammar(number);
+                            secondDate = '(le **' + dateUTC.getDate() + '** ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')';
                         }
                         else if (time == 2) {
                             planning_message = embed
                             .setTitle(':hospital: PLANNING ' + (choice == true ? 'DES SOINS' : product + '™') + ' :hospital:')
                             .setDescription('Nous sommes le _*' + today.getDate() + ' ' + this.getNameMonth(today.getMonth()) + ' ' + today.getFullYear() + '*_ et les 2 prochains produits ' + (choice == true ? '' : '**' + product + '**') + ' sont :')
-                            .addField(nextDiff, nextDate, true)
-                            .addField(afterDiff, afterDate, true)
+                            .addField(firstDiff, firstDate, true)
+                            .addField(secondDiff, secondDate, true)
                             .setColor(0xFF9933)
                             .setThumbnail("https://i.imgur.com/fpFrKTO.png")
                             .setFooter('Requested by @' + message.author.tag + ' | Powered by Entropy®.');
-                            
+                            /*
                             guild.channels.find("name", "🏥suivi").send('<@' + message.author.id + '>');
                             guild.channels.find("name", "🏥suivi").send(planning_message).then(embedMessage => {
                                 embedMessage.react("✅");
-                            });
-                            /* TEST
+                            });*/
+                            // TEST
                             guild.channels.find("name", "test").send(planning_message).then(embedMessage => {
                                 embedMessage.react("✅");
-                            }); */
+                            }); 
                         }
                         time++;
                     }
@@ -99,13 +103,13 @@ module.exports = class Scedule {
     }
     static getProperGrammar(number) {
         if (number == 0) {
-            return '**Aujourd\'hui !**';
+            return '**AUJOURD\'HUI !**';
         }
         else if (number == 1) {
-            return '**Demain !**';
+            return '**DEMAIN !**';
         } 
         else {
-            return 'Dans ' + number + ' jours.';
+            return 'dans ' + number + ' jours.';
         }
     }
 }
