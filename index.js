@@ -28,13 +28,14 @@ const serverCrypt = cryptr.decrypt(config.serverID);
 const tokenCrypt = cryptr.decrypt(config.token);
 
 bot.on('ready', () => {
-    let guild = bot.guilds.get(serverCrypt);
-
+    let guild = bot.guilds.get(serverCrypt); 
+    
     // server available
     if (guild.available) {
         setInterval(function () {
-       
-        }, 1 * 1000);
+            let embed = new Discord.RichEmbed();
+            Food.action(null, embed, guild, fs, csv);
+        }, 60 * 60 * 1000);
     }
     
 })
