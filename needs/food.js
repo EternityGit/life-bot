@@ -72,10 +72,12 @@ module.exports = class Food {
             dateUTC = new Date(dateTemp);
             
              // 2 next refill with their names and dates then send the message  
-            if (dateUTC.getDate() >= today.getDate() && 
-                dateUTC.getMonth() >= today.getMonth() && 
-                dateUTC.getFullYear() >= today.getFullYear()) {
-                    switch (time) {
+            if (dateUTC.getDate()       >=  today.getDate()     && 
+                dateUTC.getMonth()      ==  today.getMonth()    && 
+                dateUTC.getFullYear()   ==  today.getFullYear() || 
+                dateUTC.getMonth()      >   today.getMonth()    ||
+                dateUTC.getFullYear()   >   today.getFullYear()) {
+                    switch (time) {                        
                         case 0: number = Math.ceil((dateUTC - today)/(1000 * 3600 * 24));
                                 color = this.getColor(number);
                                 nextFirstDiff = this.getProperGrammar(number);
@@ -142,11 +144,11 @@ module.exports = class Food {
             console.log("date - 1 " + dateUTC.getDate() - 1);
             */
             // 2 next refill with their names and dates then send the message  
-            if (dateUTC.getDate() >= today.getDate() && 
-                dateUTC.getMonth() >= today.getMonth() && 
-                dateUTC.getFullYear() >= today.getFullYear() &&
-                today.getHours() == 16) {
-                    today.getDay
+            if (dateUTC.getDate()       >=  today.getDate()     && 
+                dateUTC.getMonth()      ==  today.getMonth()    && 
+                dateUTC.getFullYear()   ==  today.getFullYear() && today.getHours() == 16 ||
+                dateUTC.getMonth()      >   today.getMonth()    && today.getHours() == 16 ||
+                dateUTC.getFullYear()   >   today.getFullYear() && today.getHours() == 16) {
                     number = Math.ceil((dateUTC - today)/(1000 * 3600 * 24));
 
                     if (time == 0 && (number == 0 || number == 1)) {
