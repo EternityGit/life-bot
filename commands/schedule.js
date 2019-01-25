@@ -18,7 +18,8 @@ module.exports = class Scedule {
     static sendPlanning(message, embed, guild, fs, csv, choice) {
         let stream = fs.createReadStream("./file/life_planning.csv");
         let today = new Date();
-        let planning, product, day, month, year, dateTemp, dateUTC, planning_message, number, firstDate, firstDiff, secondDate, secondDiff;
+        let planning, product, day, month, year, rest, dateTemp, dateUTC, planning_message, number, color;
+        let firstDate, firstDiff, firstRest, secondDate, secondDiff, secondRest;
         let time = 0;
         let thumbnail = '';
 
@@ -33,6 +34,8 @@ module.exports = class Scedule {
             day = data[1][0] + data[1][1];
             month = data[1][3] + data[1][4];
             year = data[1][6] + data[1][7] + data[1][8] + data[1][9];
+            // get the rest of the stock
+            rest = data[2];
             // reverse the date (ex: 2018-05-06)
             dateTemp = year + "-" + month + "-" + day;
             // UTC format
@@ -44,26 +47,25 @@ module.exports = class Scedule {
                         if (time == 0) {                        
                             // The 1st next product
                             number = Math.ceil((dateUTC - today)/(1000 * 3600 * 24));
-                            firstDiff = product + " : " + this.getProperGrammar(number);
-                            firstDate =  '(le **' + dateUTC.getDate() + '** ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')';
-                            console.log(dateUTC.getTime());
-                            console.log(today.getTime());
-                            console.log(dateUTC);
-                            console.log(today);
+                            firstDiff = product  + '\nLe ' + this.getNameDay(dateUTC.getDay()) + ' **' + dateUTC.getDate() + '** ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear();
+                            firstDate = this.getProperGrammar(number);
+                            firstRest = this.getRest(rest);
+                            color = this.getColor(rest);
                         }
                         else if (time == 1) {                        
                             // The 2nd next product
                             number = Math.ceil((dateUTC - today)/(1000 * 3600 * 24));
-                            secondDiff = product + " : " + this.getProperGrammar(number);
-                            secondDate = '(le **' + dateUTC.getDate() + '** ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear() + ')';
+                            secondDiff = product + '\nLe ' + this.getNameDay(dateUTC.getDay()) + ' **' + dateUTC.getDate() + '** ' + this.getNameMonth(dateUTC.getMonth()) + ' ' + dateUTC.getFullYear();
+                            secondDate = this.getProperGrammar(number);
+                            secondRest = this.getRest(rest);
                         }
                         else if (time == 2) {
                             planning_message = embed
                             .setTitle(':hospital: PLANNING ' + (choice == true ? 'DES SOINS' : product + '™') + ' :hospital:')
-                            .setDescription('Nous sommes le _*' + today.getDate() + ' ' + this.getNameMonth(today.getMonth()) + ' ' + today.getFullYear() + '*_ et les 2 prochains produits ' + (choice == true ? '' : '**' + product + '**') + ' sont :')
-                            .addField(firstDiff, firstDate, true)
-                            .addField(secondDiff, secondDate, true)
-                            .setColor(0xFF9933)
+                            .setDescription('Nous sommes le **' + today.getDate() + ' ' + this.getNameMonth(today.getMonth()) + ' ' + today.getFullYear() + '** et les 2 prochains produits ' + (choice == true ? '' : '**' + product + '**') + ' sont :')
+                            .addField(firstDiff, firstDate + firstRest,  true)
+                            .addField(secondDiff, secondDate + secondRest, true)
+                            .setColor(color)
                             .setThumbnail("https://i.imgur.com/fpFrKTO.png")
                             .setFooter('Requested by @' + message.author.tag + ' | Powered by Entropy®.');
                             
@@ -74,7 +76,7 @@ module.exports = class Scedule {
                             /*// TEST
                             guild.channels.find("name", "test").send(planning_message).then(embedMessage => {
                                 embedMessage.react("✅");
-                            }); */
+                            });*/
                         }
                         time++;
                     }
@@ -101,15 +103,42 @@ module.exports = class Scedule {
         ];
         return months[month];
     }
+    static getNameDay(day) {
+        let days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+        return days[day];
+    }
     static getProperGrammar(number) {
         if (number == 0) {
-            return '**AUJOURD\'HUI !**';
+            return '**Aujourd\'hui !**';
         }
         else if (number == 1) {
-            return '**DEMAIN !**';
+            return '**Demain !**';
         } 
         else {
-            return 'dans ' + number + ' jours.';
+            return 'Dans **' + number + '** jours.';
+        }
+    }
+    static getColor(number) {
+        if (number == 0) {
+            return 0xFF0000;
+        }
+        else if (number == 1) {
+            return 0xFF4400;
+        } 
+        else {
+            return 0x0055DD;
+        }
+    }
+
+    static getRest(rest) {
+        if (rest > 1) {
+            return '\nStock : **' + rest + '** produits.';
+        }
+        else if (rest == 1) {
+            return '\nStock : **1** produit.';
+        }
+        else {
+            return '\nStock : **VIDE**.';
         }
     }
 }
